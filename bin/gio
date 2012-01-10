@@ -1,0 +1,107 @@
+#!/usr/bin/perl -Ilib
+
+use strict;
+use Giovanni;
+use feature 'switch';
+use Getopt::Long;
+use Pod::Usage;
+use Config::GitLike;
+use Data::Dumper;
+
+my $help;
+my $man;
+my $pid;
+my $conf  = 'giovanni.conf';
+my $debug = 0;
+my $offset;
+
+my $command = pop(@ARGV);
+
+GetOptions(
+    "offset|o=s"  => \$offset,
+    "config|c=s"  => \$conf,
+    "pidfile|p=s" => \$pid,
+    'help|?'      => \$help,
+    'debug|v'     => \$debug,
+    "man"         => \$man,
+) or pod2usage(2);
+pod2usage(1) if $help;
+pod2usage( -exitstatus => 0, -verbose => 2 ) if $man;
+pod1usage(2) unless $command;
+
+my $config = Config::GitLike->new( confname => $conf, cascade => 1 );
+$config->load();
+my $gio = Giovanni->new( debug => $debug );
+
+given ($command) {
+    when (/deploy/i)   { deploy(); }
+    when (/rollback/i) { $gio->rollback($config, $offset); }
+    when (/restart/i)  { $gio->restart($config); }
+    default            { print "Could not find command '$command'\n"; }
+}
+
+sub deploy {
+    my $dest = $config->get_regexp( key => 'deploy');
+    my $cnf;
+    foreach my $line (keys %{$dest}){
+        my ($_deploy, $name, $key) = split(/\./, $line);
+        $cnf->{$name}->{$key} = $dest->{$line};
+    }
+    foreach my $task (keys %{$cnf}){
+        print "{task} Running deploy for '$task'\n";
+        $gio->deploy($cnf->{$task});
+        die $gio->error if $gio->error;
+    }
+}
+
+=head1 AUTHOR
+
+Lenz Gschwendtner, C<< <lenz@springtimesoft.com> >>
+
+=head1 SYNOPSIS
+
+gio [options] [deploy|rollback|restart]
+
+ Options:
+   --config|c        config file to use
+   --help|?          brief help message
+   --debug|v         turn on debug output
+   --man             full documentation
+
+=head1 CONFIG
+
+To configure a project to use Giovanni simply put a `.giovanni.conf`
+file in the root directory of your program. The syntax of the config
+looks like this:
+
+
+    [deploy "project_name"]
+        hosts = host.name, IP, ...
+        root = /base/path/to/project
+        init = /etc/init.d/project_name
+        stages = update_cache, rollout_timestamped, restart_phased, notify
+        repo = git://github.com/username/project_name.git
+        cache = /tmp/repo
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<< <lenz@springtimesoft.com> >>
+
+=head1 SUPPORT
+
+You can find documentation for this module with the man command.
+
+    man gio
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks for capistrano for showing me how to deploy nicely
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2011 Lenz Gschwendtner, springtimesoft LTD, all rights reserved.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
