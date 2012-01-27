@@ -1,3 +1,4 @@
+use 5.010;
 use inc::Module::Install;
 
 name     'Giovanni';
@@ -17,6 +18,8 @@ requires 'Sys::Hostname';
 requires 'Git::Repository';
 
 auto_install;
+
+install_script 'bin/gio';
 
 WriteAll;
 
