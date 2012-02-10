@@ -16,11 +16,11 @@ Giovanni - The great new Giovanni!
 
 =head1 VERSION
 
-Version 0.7.7
+Version 0.8.8.7.7
 
 =cut
 
-our $VERSION = '0.7';
+our $VERSION = '0.8';
 
 has 'debug' => (
     is        => 'rw',
@@ -75,6 +75,12 @@ has 'error' => (
 has 'config' => (
     is       => 'rw',
     required => 1,
+);
+
+has 'notifyer' => (
+    is      => 'rw',
+    isa     => 'Str',
+    default => 'jabber',
 );
 
 =head1 SYNOPSIS
@@ -200,6 +206,15 @@ sub log {
 
     return;
 }
+
+sub notify {
+    my ($self, $ssh, $conf) = @_;
+    # load notify plugin
+    $self->load_plugin($self->notifyer);
+    $self->send_notify($ssh, $conf);
+    return;
+}
+
 
 =head1 AUTHOR
 
