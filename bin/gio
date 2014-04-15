@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+#
+# PODNAME: gio
 
 use 5.010;
 use strict;
@@ -59,9 +61,19 @@ foreach my $project (keys %{$cnf}) {
     }
 }
 
-=head1 AUTHOR
+__END__
 
-Lenz Gschwendtner, C<< <lenz@springtimesoft.com> >>
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+gio
+
+=head1 VERSION
+
+version 0.9
 
 =head1 SYNOPSIS
 
@@ -73,6 +85,10 @@ gio [options] [deploy|rollback|restart]
    --help|h          brief help message
    --debug|d         turn on debug output
    --man             full documentation
+
+=head1 AUTHOR
+
+Lenz Gschwendtner, C<< <lenz@springtimesoft.com> >>
 
 =head1 CONFIG
 
@@ -128,5 +144,16 @@ Copyright 2011 Lenz Gschwendtner, springtimesoft LTD, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Lenz Gschwendtner <mail@norbu09.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by ideegeo Group Limited.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut

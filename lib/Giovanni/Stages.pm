@@ -180,6 +180,29 @@ sub restart_phased {
     return;
 }
 
+sub reload_phased {
+    my ($self, $ssh) = @_;
+
+    $self->log($ssh, "running reload_phased task ...");
+    unless ($ssh->test("sudo " . $self->config->{reload})) {
+        $self->log(
+            'reload failed: ' . $ssh->error . ' trying stop -> start instead');
+        $ssh->test("sudo " . $self->config->{init} . " stop");
+
+        # give time to exit
+        sleep 2;
+        $ssh->test("sudo " . $self->config->{init} . " start")
+            or $self->error('restart failed: ' . $ssh->error);
+        return;
+    }
+
+    # my $exp = Expect->init($pty);
+    # $exp->interact();
+    $self->log($ssh, 'reloaded ' . $self->config->{reload});
+
+    return;
+}
+
 sub send_notify {
     my ($self, $ssh) = @_;
     $self->log($ssh, "running send_notify task ...");
@@ -209,3 +232,30 @@ sub post_rollout {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Giovanni::Stages
+
+=head1 VERSION
+
+version 0.9
+
+=head1 AUTHOR
+
+Lenz Gschwendtner <mail@norbu09.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by ideegeo Group Limited.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

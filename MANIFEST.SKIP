@@ -1,9 +1,0 @@
-inc/
-t/.vimbk/
-.git/
-.gitignore
-.gitCOMMIT_EDITMSG
-.shipit
-.vimbk/
-.giovanni.conf
-ssh.test
