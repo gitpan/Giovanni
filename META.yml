@@ -14,12 +14,6 @@ meta-spec:
   version: 1.4
 name: Giovanni
 requires:
-  AnyEvent: 0
-  AnyEvent::XMPP::Client: 0
-  AnyEvent::XMPP::Ext::Disco: 0
-  AnyEvent::XMPP::Ext::MUC: 0
-  AnyEvent::XMPP::Ext::MUC::Message: 0
-  AnyEvent::XMPP::Ext::Version: 0
   Config::GitLike: 0
   Cwd: 0
   Data::Dumper: 0
@@ -40,4 +34,4 @@ resources:
   bugtracker: https://github.com/norbu09/Giovanni/issues
   homepage: https://github.com/norbu09/Giovanni/wiki
   repository: git://github.com/norbu09/Giovanni.git
-version: 0.9
+version: 1.10

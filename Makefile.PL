@@ -23,12 +23,6 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Giovanni",
   "PREREQ_PM" => {
-    "AnyEvent" => 0,
-    "AnyEvent::XMPP::Client" => 0,
-    "AnyEvent::XMPP::Ext::Disco" => 0,
-    "AnyEvent::XMPP::Ext::MUC" => 0,
-    "AnyEvent::XMPP::Ext::MUC::Message" => 0,
-    "AnyEvent::XMPP::Ext::Version" => 0,
     "Config::GitLike" => 0,
     "Cwd" => 0,
     "Data::Dumper" => 0,
@@ -48,7 +42,7 @@ my %WriteMakefileArgs = (
   "TEST_REQUIRES" => {
     "Test::More" => 0
   },
-  "VERSION" => "0.9",
+  "VERSION" => "1.10",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -56,12 +50,6 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
-  "AnyEvent" => 0,
-  "AnyEvent::XMPP::Client" => 0,
-  "AnyEvent::XMPP::Ext::Disco" => 0,
-  "AnyEvent::XMPP::Ext::MUC" => 0,
-  "AnyEvent::XMPP::Ext::MUC::Message" => 0,
-  "AnyEvent::XMPP::Ext::Version" => 0,
   "Config::GitLike" => 0,
   "Cwd" => 0,
   "Data::Dumper" => 0,
